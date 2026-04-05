@@ -31,8 +31,8 @@ async def gen_clk(clk_port, count: int):
 def bytes_to_block(byte_list: bytes, length):
     block = 0x00
 
-    for i in range(0, length):
-        block |= (byte_list[i] << (i * 8))
+    for i in range(length):
+        block |= byte_list[length - 1 - i] << (i * 8)
 
     return block
 

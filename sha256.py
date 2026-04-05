@@ -165,10 +165,8 @@ class Sha256(wiring.Component):
     Inputs:
         - block_i - block of data. Note, that this module
           does not perform padding, this has to be done by
-          the user beforehand. Bytes in block_i are placed
-          in natural order. If we take an array of bytes, then
-          the first element of said array is going to be placed
-          into LSB of block_i.
+          the user beforehand. Last byte in the sequence that
+          needs to be hashed must be placed into LSB of the block.
         - valid_i - shows that the input data is valid.
           Module starts working as soon as valid_i is driven
           to VCC.
@@ -194,9 +192,6 @@ class Sha256(wiring.Component):
 
     def get_byte(self, signal: Signal, index: int):
         return signal.bit_select(index * 8, 8)
-
-    def get_word(self, signal: Signal, index: int):
-        return signal.bit_select(index * 32, 32)
 
     def elaborate(self, platform):
         m = am.Module()
@@ -265,10 +260,7 @@ class Sha256(wiring.Component):
                 with m.If(self.valid_i):
                     for igen in range(16):
                         m.d.sync += [
-                            self.get_byte(w[igen], 0).eq(self.get_byte(self.block_i, igen * 4 + 3)),
-                            self.get_byte(w[igen], 1).eq(self.get_byte(self.block_i, igen * 4 + 2)),
-                            self.get_byte(w[igen], 2).eq(self.get_byte(self.block_i, igen * 4 + 1)),
-                            self.get_byte(w[igen], 3).eq(self.get_byte(self.block_i, igen * 4 + 0)),
+                            w[15 - igen].eq(self.block_i.bit_select(igen * 32, 32)),
                             ]
 
                     m.d.sync += [
@@ -291,6 +283,7 @@ class Sha256(wiring.Component):
             with m.Case(1):
                 with m.If(i < 64):
                     m.d.sync += [
+                        am.Print(am.Format("w_i = {:08x} ({})", w_i, i)),
                         h.eq(g),
                         g.eq(f),
                         f.eq(e),
@@ -303,6 +296,7 @@ class Sha256(wiring.Component):
 
                     for igen in range(15):
                         m.d.sync += w[igen].eq(w[igen + 1])
+
                     m.d.sync += w[15].eq(w_i)
 
                     m.d.sync += [
