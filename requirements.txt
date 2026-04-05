@@ -1,0 +1,2 @@
+amaranth[builtin-yosys]==0.5.8
+cocotb==2.0.1
