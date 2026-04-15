@@ -28,7 +28,7 @@ typedef enum
  * - padsize - [out] size of the padded msg.
  * Returns:
  * - status of the operation:
- *   - SHA256_BAD_DATA_PTR - pointer of the state is NULL or
+ *   - SHA256_BAD_DATA_PTR - pointer of the msg, padmsg or padsize is NULL or
  *     invalid in some other way.
  *   - SHA256_OK - operation completed just fine.
  */
