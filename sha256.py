@@ -13,6 +13,32 @@ from amaranth.lib.wiring import (
         )
 
 
+H_CONST = [
+    0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a,
+    0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19
+]
+
+
+K_CONST = [
+    0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5,
+    0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
+    0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3,
+    0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
+    0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc,
+    0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
+    0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7,
+    0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
+    0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13,
+    0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
+    0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3,
+    0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
+    0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5,
+    0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+    0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208,
+    0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
+]
+
+
 # Verilog-style async ROM because amaranth's Arrays
 # aggravate me
 class K_storage(wiring.Component):
@@ -26,138 +52,29 @@ class K_storage(wiring.Component):
         m = am.Module()
 
         with m.Switch(self.round_i):
-            with m.Case(0):
-                m.d.comb += self.k_o.eq(0x428a2f98)
-            with m.Case(1):
-                m.d.comb += self.k_o.eq(0x71374491)
-            with m.Case(2):
-                m.d.comb += self.k_o.eq(0xb5c0fbcf)
-            with m.Case(3):
-                m.d.comb += self.k_o.eq(0xe9b5dba5)
-            with m.Case(4):
-                m.d.comb += self.k_o.eq(0x3956c25b)
-            with m.Case(5):
-                m.d.comb += self.k_o.eq(0x59f111f1)
-            with m.Case(6):
-                m.d.comb += self.k_o.eq(0x923f82a4)
-            with m.Case(7):
-                m.d.comb += self.k_o.eq(0xab1c5ed5)
-            with m.Case(8):
-                m.d.comb += self.k_o.eq(0xd807aa98)
-            with m.Case(9):
-                m.d.comb += self.k_o.eq(0x12835b01)
-            with m.Case(10):
-                m.d.comb += self.k_o.eq(0x243185be)
-            with m.Case(11):
-                m.d.comb += self.k_o.eq(0x550c7dc3)
-            with m.Case(12):
-                m.d.comb += self.k_o.eq(0x72be5d74)
-            with m.Case(13):
-                m.d.comb += self.k_o.eq(0x80deb1fe)
-            with m.Case(14):
-                m.d.comb += self.k_o.eq(0x9bdc06a7)
-            with m.Case(15):
-                m.d.comb += self.k_o.eq(0xc19bf174)
-            with m.Case(16):
-                m.d.comb += self.k_o.eq(0xe49b69c1)
-            with m.Case(17):
-                m.d.comb += self.k_o.eq(0xefbe4786)
-            with m.Case(18):
-                m.d.comb += self.k_o.eq(0x0fc19dc6)
-            with m.Case(19):
-                m.d.comb += self.k_o.eq(0x240ca1cc)
-            with m.Case(20):
-                m.d.comb += self.k_o.eq(0x2de92c6f)
-            with m.Case(21):
-                m.d.comb += self.k_o.eq(0x4a7484aa)
-            with m.Case(22):
-                m.d.comb += self.k_o.eq(0x5cb0a9dc)
-            with m.Case(23):
-                m.d.comb += self.k_o.eq(0x76f988da)
-            with m.Case(24):
-                m.d.comb += self.k_o.eq(0x983e5152)
-            with m.Case(25):
-                m.d.comb += self.k_o.eq(0xa831c66d)
-            with m.Case(26):
-                m.d.comb += self.k_o.eq(0xb00327c8)
-            with m.Case(27):
-                m.d.comb += self.k_o.eq(0xbf597fc7)
-            with m.Case(28):
-                m.d.comb += self.k_o.eq(0xc6e00bf3)
-            with m.Case(29):
-                m.d.comb += self.k_o.eq(0xd5a79147)
-            with m.Case(30):
-                m.d.comb += self.k_o.eq(0x06ca6351)
-            with m.Case(31):
-                m.d.comb += self.k_o.eq(0x14292967)
-            with m.Case(32):
-                m.d.comb += self.k_o.eq(0x27b70a85)
-            with m.Case(33):
-                m.d.comb += self.k_o.eq(0x2e1b2138)
-            with m.Case(34):
-                m.d.comb += self.k_o.eq(0x4d2c6dfc)
-            with m.Case(35):
-                m.d.comb += self.k_o.eq(0x53380d13)
-            with m.Case(36):
-                m.d.comb += self.k_o.eq(0x650a7354)
-            with m.Case(37):
-                m.d.comb += self.k_o.eq(0x766a0abb)
-            with m.Case(38):
-                m.d.comb += self.k_o.eq(0x81c2c92e)
-            with m.Case(39):
-                m.d.comb += self.k_o.eq(0x92722c85)
-            with m.Case(40):
-                m.d.comb += self.k_o.eq(0xa2bfe8a1)
-            with m.Case(41):
-                m.d.comb += self.k_o.eq(0xa81a664b)
-            with m.Case(42):
-                m.d.comb += self.k_o.eq(0xc24b8b70)
-            with m.Case(43):
-                m.d.comb += self.k_o.eq(0xc76c51a3)
-            with m.Case(44):
-                m.d.comb += self.k_o.eq(0xd192e819)
-            with m.Case(45):
-                m.d.comb += self.k_o.eq(0xd6990624)
-            with m.Case(46):
-                m.d.comb += self.k_o.eq(0xf40e3585)
-            with m.Case(47):
-                m.d.comb += self.k_o.eq(0x106aa070)
-            with m.Case(48):
-                m.d.comb += self.k_o.eq(0x19a4c116)
-            with m.Case(49):
-                m.d.comb += self.k_o.eq(0x1e376c08)
-            with m.Case(50):
-                m.d.comb += self.k_o.eq(0x2748774c)
-            with m.Case(51):
-                m.d.comb += self.k_o.eq(0x34b0bcb5)
-            with m.Case(52):
-                m.d.comb += self.k_o.eq(0x391c0cb3)
-            with m.Case(53):
-                m.d.comb += self.k_o.eq(0x4ed8aa4a)
-            with m.Case(54):
-                m.d.comb += self.k_o.eq(0x5b9cca4f)
-            with m.Case(55):
-                m.d.comb += self.k_o.eq(0x682e6ff3)
-            with m.Case(56):
-                m.d.comb += self.k_o.eq(0x748f82ee)
-            with m.Case(57):
-                m.d.comb += self.k_o.eq(0x78a5636f)
-            with m.Case(58):
-                m.d.comb += self.k_o.eq(0x84c87814)
-            with m.Case(59):
-                m.d.comb += self.k_o.eq(0x8cc70208)
-            with m.Case(60):
-                m.d.comb += self.k_o.eq(0x90befffa)
-            with m.Case(61):
-                m.d.comb += self.k_o.eq(0xa4506ceb)
-            with m.Case(62):
-                m.d.comb += self.k_o.eq(0xbef9a3f7)
-            with m.Case(63):
-                m.d.comb += self.k_o.eq(0xc67178f2)
+            for i in range(64):
+                with m.Case(i):
+                    m.d.comb += self.k_o.eq(K_CONST[i])
             with m.Case():
-                m.d.comb += self.k_o.eq(0x428a2f98)
+                m.d.comb += self.k_o.eq(K_CONST[0]);
 
         return m
+
+
+def _s0(a):
+    return a.rotate_right(2) ^ a.rotate_right(13) ^ a.rotate_right(22)
+
+
+def _s1(e):
+    return e.rotate_right(6) ^ e.rotate_right(11) ^ e.rotate_right(25)
+
+
+def _ch(e, f, g):
+    return (e & f) ^ ((~e) & g)
+
+
+def _maj(a, b, c):
+    return (a & (b ^ c)) ^ (b & c)
 
 
 class Sha256(wiring.Component):
@@ -182,6 +99,7 @@ class Sha256(wiring.Component):
 
     block_i:  In(512)
     valid_i:  In(1)
+    first_i:  In(1)
 
     hash_o:   Out(256)
     ready_o:  Out(1, init=1)
@@ -197,25 +115,16 @@ class Sha256(wiring.Component):
         m = am.Module()
         m.submodules += [self.k_storage]
 
-        w = am.Array([Signal(32, init=0, name=f"w_{i}") for i in range(16)])
+        w = am.Array(Signal(32, init=0, name=f"w_{igen}") for igen in range(16))
         w_i = Signal(32, init=0)
         k_i = Signal(32, init=0)
 
         i      = Signal(32, init=1)
         cstep  = Signal(4, init=0)
-        s0     = Signal(32)
-        s1     = Signal(32)
-        ch     = Signal(32)
-        maj    = Signal(32)
+        temp1  = Signal(32, init=0)
+        temp2  = Signal(32, init=0)
 
-        h0 = Signal(32, init=0x6a09e667)
-        h1 = Signal(32, init=0xbb67ae85)
-        h2 = Signal(32, init=0x3c6ef372)
-        h3 = Signal(32, init=0xa54ff53a)
-        h4 = Signal(32, init=0x510e527f)
-        h5 = Signal(32, init=0x9b05688c)
-        h6 = Signal(32, init=0x1f83d9ab)
-        h7 = Signal(32, init=0x5be0cd19)
+        h_ = [Signal(32, init=H_CONST[igen], name=f"h_{igen}") for igen in range(8)]
 
         a = Signal(32, init=0)
         b = Signal(32, init=0)
@@ -227,31 +136,33 @@ class Sha256(wiring.Component):
         h = Signal(32, init=0)
 
         # Connect submodule's ports to this module's wires
-        m.d.comb += self.k_storage.round_i.eq(i)
-        m.d.comb += k_i.eq(self.k_storage.k_o)
+        m.d.comb += [
+            self.k_storage.round_i.eq(i),
+            k_i.eq(self.k_storage.k_o),
+            ]
 
         # Intermediate variables
-        m.d.comb += s1.eq(e.rotate_right(6) ^ e.rotate_right(11) ^ e.rotate_right(25))
-        m.d.comb += ch.eq((e & f) ^ ((~e) & g))
-        m.d.comb += s0.eq(a.rotate_right(2) ^ a.rotate_right(13) ^ a.rotate_right(22))
-        m.d.comb += maj.eq((a & b) ^ (a & c) ^ (b & c))
+        m.d.comb += [
+            temp1.eq(h + _s1(e) + _ch(e, f, g) + k_i + w_i),
+            temp2.eq(_s0(a) + _maj(a, b, c)),
+            ]
 
         t1 = Signal(32, init=0)
         t2 = Signal(32, init=0)
 
         # Schedule array expansion
         with m.If(i > 15):
-            m.d.comb += t1.eq(
-                (w[1].rotate_right(7)) ^ (w[1].rotate_right(18)) ^ (w[1] >> 3)
-            )
-            m.d.comb += t2.eq(
-                (w[14].rotate_right(17)) ^ (w[14].rotate_right(19)) ^ (w[14] >> 10)
-            )
-            m.d.comb += w_i.eq(w[0] + t1 + w[9] + t2)
+            m.d.comb += [
+                t1.eq((w[1].rotate_right(7)) ^ (w[1].rotate_right(18)) ^ (w[1] >> 3)),
+                t2.eq((w[14].rotate_right(17)) ^ (w[14].rotate_right(19)) ^ (w[14] >> 10)),
+                w_i.eq(w[0] + t1 + w[9] + t2),
+                ]
         with m.Else():
-            m.d.comb += t1.eq(0)
-            m.d.comb += t2.eq(0)
-            m.d.comb += w_i.eq(w[0])
+            m.d.comb += [
+                t1.eq(0),
+                t2.eq(0),
+                w_i.eq(w[0]),
+                ]
 
         with m.Switch(cstep):
 
@@ -263,19 +174,36 @@ class Sha256(wiring.Component):
                             w[15 - igen].eq(self.block_i.bit_select(igen * 32, 32)),
                             ]
 
+                    with m.If(self.first_i):
+                        for igen in range(8):
+                            m.d.sync += h_[igen].eq(h_[igen].init)
+
+                        m.d.sync += [
+                            a.eq(h_[0].init),
+                            b.eq(h_[1].init),
+                            c.eq(h_[2].init),
+                            d.eq(h_[3].init),
+                            e.eq(h_[4].init),
+                            f.eq(h_[5].init),
+                            g.eq(h_[6].init),
+                            h.eq(h_[7].init),
+                            ]
+
+                    with m.Else():
+                        m.d.sync += [
+                            a.eq(h_[0]),
+                            b.eq(h_[1]),
+                            c.eq(h_[2]),
+                            d.eq(h_[3]),
+                            e.eq(h_[4]),
+                            f.eq(h_[5]),
+                            g.eq(h_[6]),
+                            h.eq(h_[7]),
+                            ]
+
                     m.d.sync += [
                         i.eq(0),
                         self.ready_o.eq(0),
-
-                        a.eq(h0),
-                        b.eq(h1),
-                        c.eq(h2),
-                        d.eq(h3),
-                        e.eq(h4),
-                        f.eq(h5),
-                        g.eq(h6),
-                        h.eq(h7),
-
                         cstep.eq(cstep + 1),
                         ]
 
@@ -283,15 +211,14 @@ class Sha256(wiring.Component):
             with m.Case(1):
                 with m.If(i < 64):
                     m.d.sync += [
-                        am.Print(am.Format("w_i = {:08x} ({})", w_i, i)),
                         h.eq(g),
                         g.eq(f),
                         f.eq(e),
-                        e.eq(d + h + s1 + ch + k_i + w_i),
+                        e.eq(d + temp1),
                         d.eq(c),
                         c.eq(b),
                         b.eq(a),
-                        a.eq(h + s1 + ch + k_i + w_i + s0 + maj),
+                        a.eq(temp1 + temp2),
                         ]
 
                     for igen in range(15):
@@ -312,60 +239,29 @@ class Sha256(wiring.Component):
             # ====== Finalize results ======
             with m.Case(2):
                 m.d.sync += [
-                    h0.eq(h0 + a),
-                    h1.eq(h1 + b),
-                    h2.eq(h2 + c),
-                    h3.eq(h3 + d),
-                    h4.eq(h4 + e),
-                    h5.eq(h5 + f),
-                    h6.eq(h6 + g),
-                    h7.eq(h7 + h),
+                    h_[0].eq(h_[0] + a),
+                    h_[1].eq(h_[1] + b),
+                    h_[2].eq(h_[2] + c),
+                    h_[3].eq(h_[3] + d),
+                    h_[4].eq(h_[4] + e),
+                    h_[5].eq(h_[5] + f),
+                    h_[6].eq(h_[6] + g),
+                    h_[7].eq(h_[7] + h),
 
                     cstep.eq(cstep + 1),
                     ]
 
             with m.Case(3):
+                global_b_idx = 0
+                for h_idx in range(7, -1, -1):
+                    for b_idx in range(4):
+                        m.d.sync += [
+                            self.get_byte(self.hash_o, global_b_idx).eq(
+                                    self.get_byte(h_[h_idx], b_idx)
+                                    )
+                            ]
+                        global_b_idx += 1
                 m.d.sync += [
-                    self.get_byte(self.hash_o,  0).eq(self.get_byte(h7, 0)),
-                    self.get_byte(self.hash_o,  1).eq(self.get_byte(h7, 1)),
-                    self.get_byte(self.hash_o,  2).eq(self.get_byte(h7, 2)),
-                    self.get_byte(self.hash_o,  3).eq(self.get_byte(h7, 3)),
-
-                    self.get_byte(self.hash_o,  4).eq(self.get_byte(h6, 0)),
-                    self.get_byte(self.hash_o,  5).eq(self.get_byte(h6, 1)),
-                    self.get_byte(self.hash_o,  6).eq(self.get_byte(h6, 2)),
-                    self.get_byte(self.hash_o,  7).eq(self.get_byte(h6, 3)),
-
-                    self.get_byte(self.hash_o,  8).eq(self.get_byte(h5, 0)),
-                    self.get_byte(self.hash_o,  9).eq(self.get_byte(h5, 1)),
-                    self.get_byte(self.hash_o, 10).eq(self.get_byte(h5, 2)),
-                    self.get_byte(self.hash_o, 11).eq(self.get_byte(h5, 3)),
-
-                    self.get_byte(self.hash_o, 12).eq(self.get_byte(h4, 0)),
-                    self.get_byte(self.hash_o, 13).eq(self.get_byte(h4, 1)),
-                    self.get_byte(self.hash_o, 14).eq(self.get_byte(h4, 2)),
-                    self.get_byte(self.hash_o, 15).eq(self.get_byte(h4, 3)),
-
-                    self.get_byte(self.hash_o, 16).eq(self.get_byte(h3, 0)),
-                    self.get_byte(self.hash_o, 17).eq(self.get_byte(h3, 1)),
-                    self.get_byte(self.hash_o, 18).eq(self.get_byte(h3, 2)),
-                    self.get_byte(self.hash_o, 19).eq(self.get_byte(h3, 3)),
-
-                    self.get_byte(self.hash_o, 20).eq(self.get_byte(h2, 0)),
-                    self.get_byte(self.hash_o, 21).eq(self.get_byte(h2, 1)),
-                    self.get_byte(self.hash_o, 22).eq(self.get_byte(h2, 2)),
-                    self.get_byte(self.hash_o, 23).eq(self.get_byte(h2, 3)),
-
-                    self.get_byte(self.hash_o, 24).eq(self.get_byte(h1, 0)),
-                    self.get_byte(self.hash_o, 25).eq(self.get_byte(h1, 1)),
-                    self.get_byte(self.hash_o, 26).eq(self.get_byte(h1, 2)),
-                    self.get_byte(self.hash_o, 27).eq(self.get_byte(h1, 3)),
-
-                    self.get_byte(self.hash_o, 28).eq(self.get_byte(h0, 0)),
-                    self.get_byte(self.hash_o, 29).eq(self.get_byte(h0, 1)),
-                    self.get_byte(self.hash_o, 30).eq(self.get_byte(h0, 2)),
-                    self.get_byte(self.hash_o, 31).eq(self.get_byte(h0, 3)),
-
                     self.ready_o.eq(1),
                     cstep.eq(0),
                     ]

@@ -101,7 +101,14 @@ async def run_test(dut, message):
 
     await gen_clk(dut.clk, 3)
 
+    is_first = True
     while len(padded_message) >= 64:
+        if is_first:
+            dut.first_i.value = 1
+            is_first = False
+        else:
+            dut.first_i.value = 0
+
         block = bytes_to_block(padded_message, 64)
         cocotb.log.info("block: %0x", block)
         padded_message = padded_message[64:]
@@ -155,7 +162,7 @@ async def random_messages(dut):
     with open(filename, "w") as f:
         f.write("Clock count,Message size (bytes),Throughput (bytes/clk)\n")
         for test_case in range(1, 10):
-            byte_count = random.randint(0, 256)
+            byte_count = random.randint(0, 300)
             message = random.randbytes(byte_count)
             total_byte_count = len(pad(message, len(message)))
 
