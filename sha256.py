@@ -87,6 +87,9 @@ class Sha256(wiring.Component):
         - valid_i - shows that the input data is valid.
           Module starts working as soon as valid_i is driven
           to VCC.
+        - first_i - when this signal is driven to VCC, module
+          resets its internal state. This should be done before
+          hashing a new set of blocks.
         - hash_o - digest of the current block of data. Note
           that the internal state of the module does not get
           reset between block digestion runs. So if one wants
