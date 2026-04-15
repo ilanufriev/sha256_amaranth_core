@@ -35,7 +35,7 @@ Another way is by using an "-f" flag:
 By default hash is displayed in big-endian format. If you want it to be displayed in raw format, use "-l" flag:
 
 ```
-./sha256_cli -f -l Makefile
+./sha256_cli -l -f Makefile
 ```
 
 This implementation of the algorithm was not made for devices that store numbers in big-endian format. I can't and will not guarantee that it will work on these systems.
