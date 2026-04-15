@@ -150,6 +150,7 @@ sha256_status_t sha256_update(struct sha256_state *s,
                               const char *data)
 {
     uint32_t w[16];
+    uint32_t a, b, c, d, e, f, g, h;
 
     if (s == NULL)
     {
@@ -170,31 +171,31 @@ sha256_status_t sha256_update(struct sha256_state *s,
         w[i] |= ((uint32_t) (data[i * 4 + 3] & 0xff));
     }
 
-    s->a = s->h_[0];
-    s->b = s->h_[1];
-    s->c = s->h_[2];
-    s->d = s->h_[3];
-    s->e = s->h_[4];
-    s->f = s->h_[5];
-    s->g = s->h_[6];
-    s->h = s->h_[7];
+    a = s->h_[0];
+    b = s->h_[1];
+    c = s->h_[2];
+    d = s->h_[3];
+    e = s->h_[4];
+    f = s->h_[5];
+    g = s->h_[6];
+    h = s->h_[7];
 
     for (int i = 0; i < 64; i++)
     {
         uint32_t w_i = (i > 15) ? (new_w(w)) : w[0];
 
-        uint32_t temp1 = s->h + S1(s->e) + ch(s->e, s->f, s->g) + K_CONST[i] + w_i;
-        uint32_t temp2 = S0(s->a) + maj(s->a, s->b, s->c);
+        uint32_t temp1 = h + S1(e) + ch(e, f, g) + K_CONST[i] + w_i;
+        uint32_t temp2 = S0(a) + maj(a, b, c);
 
         /* Scrambling working variables */
-        s->h = s->g;
-        s->g = s->f;
-        s->f = s->e;
-        s->e = s->d + temp1;
-        s->d = s->c;
-        s->c = s->b;
-        s->b = s->a;
-        s->a = temp1 + temp2;
+        h = g;
+        g = f;
+        f = e;
+        e = d + temp1;
+        d = c;
+        c = b;
+        b = a;
+        a = temp1 + temp2;
 
         /* Rotate schedule array window */
         for (int j = 0; j < 15; j++)
@@ -206,14 +207,14 @@ sha256_status_t sha256_update(struct sha256_state *s,
     }
 
     /* Adding working variables to current hash value */
-    s->h_[0] += s->a;
-    s->h_[1] += s->b;
-    s->h_[2] += s->c;
-    s->h_[3] += s->d;
-    s->h_[4] += s->e;
-    s->h_[5] += s->f;
-    s->h_[6] += s->g;
-    s->h_[7] += s->h;
+    s->h_[0] += a;
+    s->h_[1] += b;
+    s->h_[2] += c;
+    s->h_[3] += d;
+    s->h_[4] += e;
+    s->h_[5] += f;
+    s->h_[6] += g;
+    s->h_[7] += h;
 
     return SHA256_OK;
 }

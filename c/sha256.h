@@ -6,15 +6,6 @@
 
 struct sha256_state
 {
-    uint32_t a;
-    uint32_t b;
-    uint32_t c;
-    uint32_t d;
-    uint32_t e;
-    uint32_t f;
-    uint32_t g;
-    uint32_t h;
-
     uint32_t h_[8];
 };
 
@@ -25,11 +16,26 @@ typedef enum
     SHA256_BAD_DATA_PTR = 2,
 } sha256_status_t;
 
-
+/*
+ * Add padding to a message that is less than block size.
+ *
+ * Params:
+ * - msg     - [in] message that will need to be padded.
+ * - msgsize - size of this message in bytes.
+ * - totsize - total size of all hashed data in bytes.
+ * - padmsg  - [out] array of chars that will hold padded
+ *             message. Must be at least 128 bytes long.
+ * - padsize - [out] size of the padded msg.
+ * Returns:
+ * - status of the operation:
+ *   - SHA256_BAD_DATA_PTR - pointer of the state is NULL or
+ *     invalid in some other way.
+ *   - SHA256_OK - operation completed just fine.
+ */
 sha256_status_t sha256_pad_msg(const char *msg, const size_t msgsize, const size_t totsize,
                                char *padmsg, size_t *padsize);
 /*
- * initialize the algorithm.
+ * Initialize the algorithm.
  *
  * Params:
  * - s    - [in] state of the algorithm. Must be preallocated.
@@ -43,7 +49,7 @@ sha256_status_t sha256_pad_msg(const char *msg, const size_t msgsize, const size
 sha256_status_t sha256_init(struct sha256_state *s);
 
 /*
- * update algorithm with new block of data.
+ * Update algorithm with new block of data.
  *
  * Params:
  * - s    - [in] state of the algorithm. Must be initialized.
