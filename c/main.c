@@ -11,10 +11,8 @@
 #define die(msg) \
     do { fprintf(stderr, msg ": %s\n", strerror(errno)); exit(errno); } while(0);
 
-const char *argp_program_version =
-  "sha256_cli 1.0";
-const char *argp_program_bug_address =
-  "<anufriewwi2@mail.ru>";
+const char *argp_program_version = "sha256_cli 1.0";
+const char *argp_program_bug_address = "<anufriewwi2@mail.ru>";
 
 static const char doc[] = "sha256_cli - compute sha256 for a file or stdin";
 
@@ -78,10 +76,12 @@ void println_bytes(int fd, const char *bytes, const int64_t start, const int64_t
 int run(struct arguments *args)
 {
     int rc = 0;
-    int fd = -1;
+    int fd = STDIN_FILENO;
+
+    char hash[32];
     char rdbuf[64];
     char padbuf[128];
-    char hash[32];
+
     size_t padsize = 0;
     size_t totsize = 0;
 
@@ -97,10 +97,6 @@ int run(struct arguments *args)
         fd = open(args->file, O_RDONLY);
         if (fd < 0)
             die("Could not open given file");
-    }
-    else
-    {
-        fd = STDIN_FILENO;
     }
 
     while (1)
