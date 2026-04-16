@@ -1,6 +1,6 @@
 # SHA256 C
 
-Functional model of the SHA256 hashing algorithm written in C. If Amaranth HDL description looks too unfamiliar, try looking at this first, I've made my best to keep this version readeable while also maintaining core principles and tricks that were used in hardware implementation of this algorithm.
+Functional model of the SHA256 hashing algorithm written in C. If Amaranth HDL description looks too obscure, try looking at this first, I did my best to keep this version readeable and straightforward while also maintaining core principles and tricks that were used in hardware implementation of this algorithm.
 
 ## Compiling
 
